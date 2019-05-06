@@ -27,7 +27,6 @@ open class BaseActivity: AppCompatActivity() {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         }
 
-
         val tx = supportFragmentManager.beginTransaction()
 
         when (stackAction) {
