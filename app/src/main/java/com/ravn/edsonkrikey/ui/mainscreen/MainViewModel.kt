@@ -25,8 +25,8 @@ open class MainViewModel(val app: App): BaseViewModel(app) {
         app.component.inject(this)
     }
 
-    fun search() {
-        itunesRepository.searchItunes("adele")
+    fun search(searchKey: String) {
+        itunesRepository.searchItunes(searchKey)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({ response ->
