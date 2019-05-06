@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -20,13 +22,35 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+
+    // Language
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    // AndroidX Support libraries
+    kapt "androidx.annotation:annotation:$rootProject.ext.androidXVersion"
+    implementation "androidx.appcompat:appcompat:$rootProject.ext.androidXVersion"
+    implementation "com.google.android.material:material:$rootProject.ext.materialVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.lifecycleVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.androidXConstrVersion"
+
+    // Dagger core
+    implementation "jp.wasabeef:glide-transformations:$rootProject.ext.glideTrVersion"
+    implementation "com.google.dagger:dagger:$rootProject.ext.daggerCoreVersion"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerCoreVersion"
+
+    // Dagger android
+    implementation "com.google.dagger:dagger-android-support:$rootProject.ext.daggerAndroidVersion"
+    kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerAndroidVersion"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
