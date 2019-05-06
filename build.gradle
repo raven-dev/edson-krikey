@@ -41,5 +41,7 @@ ext {
     rxJavaVersion = '2.2.5'
     rxAndroidVersion = '2.1.0'
     rxKotlinVersion = '2.3.0'
+    okHttp3Version = '3.12.1'
+    retrofit2Version = '2.5.0'
 }
 
