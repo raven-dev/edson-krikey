@@ -1,12 +1,15 @@
 package com.ravn.edsonkrikey
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import com.ravn.edsonkrikey.core.ActivityLayout
+import com.ravn.edsonkrikey.core.BaseActivity
+import com.ravn.edsonkrikey.ui.mainscreen.MainFragment
 
-class MainActivity : AppCompatActivity() {
+@ActivityLayout(R.layout.activity_main)
+class MainActivity :BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        launchScreen(MainFragment.newInstance())
     }
 }

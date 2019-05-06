@@ -51,6 +51,12 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$rootProject.ext.daggerAndroidVersion"
     kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerAndroidVersion"
 
+    // ReactiveX
+    compileOnly "javax.annotation:jsr250-api:$rootProject.ext.rxApiVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxAndroidVersion"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.ext.rxKotlinVersion"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
