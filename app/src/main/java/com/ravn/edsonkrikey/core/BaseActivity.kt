@@ -1,6 +1,7 @@
 package com.ravn.edsonkrikey.core
 
 import android.os.Bundle
+import android.transition.Explode
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -22,13 +23,37 @@ open class BaseActivity: AppCompatActivity() {
     }
 
     fun launchScreen(fragment: Fragment,
-                     stackAction: BackStack = BackStack.ADD) = safeFragmentTransaction {
+                     stackAction: BackStack = BackStack.ADD,
+                     animation: AnimationStyle = AnimationStyle.SLIDE) = safeFragmentTransaction {
         if (stackAction == BackStack.REPLACE) {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         }
 
-        val tx = supportFragmentManager.beginTransaction()
+        var animationToUse = animation
 
+        val tx = supportFragmentManager.beginTransaction()
+        if(!supportFragmentManager.fragments.isEmpty()) {
+            when (animationToUse) {
+                AnimationStyle.SLIDE -> {
+                    tx.setCustomAnimations(
+                        R.anim.screen_enter, R.anim.screen_exit,
+                        R.anim.screen_pop_enter, R.anim.screen_pop_exit
+                    )
+                }
+                AnimationStyle.MODAL -> {
+                    tx.setCustomAnimations(
+                        R.anim.modal_screen_enter, R.anim.modal_screen_exit,
+                        R.anim.modal_screen_pop_enter, R.anim.modal_screen_pop_exit
+                    )
+                }
+                else -> {
+                    tx.setCustomAnimations(
+                        R.anim.overlay_screen_enter, R.anim.overlay_screen_exit,
+                        R.anim.overlay_screen_enter, R.anim.overlay_screen_exit
+                    )
+                }
+            }
+        }
         when (stackAction) {
             BackStack.ADD, BackStack.ADD_OVERLAY -> tx.addToBackStack(null)
         }
@@ -56,6 +81,12 @@ open class BaseActivity: AppCompatActivity() {
             ADD_OVERLAY,
             REPLACE,
             NONE
+        }
+
+        enum class AnimationStyle {
+            NONE,
+            SLIDE,
+            MODAL
         }
     }
 }

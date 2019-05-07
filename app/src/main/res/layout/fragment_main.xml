@@ -29,7 +29,17 @@
             android:theme="@style/Theme.MaterialComponents.Light"
             android:background="@drawable/shape_editview_round"
         />
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}"
+            android:layout_marginBottom="-6dp"
+            android:layout_marginTop="-4dp"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        />
         <LinearLayout
+            android:id="@+id/first"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"

@@ -1,5 +1,6 @@
 package com.ravn.edsonkrikey.repository.remote
 
+import java.io.Serializable
 import java.util.*
 
 /**
@@ -26,5 +27,11 @@ data class ItunesItems(
     val collectionPrice : Float,
     val trackPrice : Float,
     val releaseDate : Date,
-    val primaryGenreName : String
-)
+    val primaryGenreName : String,
+    val trackTimeMillis: Int,
+    val contentAdvisoryRating: String?,
+    val longDescription: String?,
+    val genres: List<String>?,
+    val description: String?,
+    val previewUrl: String
+): Serializable
