@@ -8,6 +8,6 @@
     <dimen name="margin_large">64dp</dimen>
     <dimen name="toolbar_height">56dp</dimen>
 
-    <integer name="animation_dur_medium">1000</integer>
+    <integer name="animation_dur_medium">900</integer>
 
 </resources>

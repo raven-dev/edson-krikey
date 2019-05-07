@@ -6,18 +6,20 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import com.ravn.edsonkrikey.core.BaseActivity
 import com.ravn.edsonkrikey.core.BaseFragment
+import com.ravn.edsonkrikey.core.BaseActivity.Companion.BackStack
+import  com.ravn.edsonkrikey.core.BaseActivity.Companion.AnimationStyle
 
 /**
  * Created by Edson Arratea Ope on 5/6/19.
  * Ravn Development
  **/
 
-fun Context.launchScreen(fragment: Fragment, stackAction: BaseActivity.Companion.BackStack = BaseActivity.Companion.BackStack.ADD) {
-    (this as BaseActivity).launchScreen(fragment, stackAction)
+fun Context.launchScreen(fragment: Fragment, stackAction: BackStack = BackStack.ADD, animation: AnimationStyle = AnimationStyle.MODAL) {
+    (this as BaseActivity).launchScreen(fragment, stackAction, animation)
 }
 
-fun Fragment.launchScreen(fragment: Fragment, stackAction: BaseActivity.Companion.BackStack = BaseActivity.Companion.BackStack.ADD) {
-    activity?.launchScreen(fragment, stackAction)
+fun Fragment.launchScreen(fragment: Fragment, stackAction: BackStack = BackStack.ADD, animation: AnimationStyle = AnimationStyle.MODAL) {
+    activity?.launchScreen(fragment, stackAction, animation)
 }
 
 fun Context.rootScreen() {

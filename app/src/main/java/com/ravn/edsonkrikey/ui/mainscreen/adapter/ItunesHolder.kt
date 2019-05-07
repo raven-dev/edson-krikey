@@ -23,7 +23,7 @@ class ItunesHolder(itemView: View, val listener: (ItunesItems?) -> Unit) : Recyc
                 .load(item.artworkUrl100)
                 .into(imageItem)
             artistName.text = item.artistName
-            itemPrice.text = item.collectionPrice.toString()
+            trackName.text = item.trackName
         }
     }
 

@@ -6,9 +6,11 @@ import com.google.gson.Gson
 import com.ravn.edsonkrikey.core.App
 import com.ravn.edsonkrikey.di.modules.AppModule
 import com.ravn.edsonkrikey.di.modules.NetworkModule
+import com.ravn.edsonkrikey.di.modules.viewmodel.DetailsViewModelModule
 import com.ravn.edsonkrikey.di.modules.viewmodel.MainViewModelModule
 import com.ravn.edsonkrikey.di.modules.viewmodel.ViewModelFactoryModule
 import com.ravn.edsonkrikey.repository.ItunesRepository
+import com.ravn.edsonkrikey.ui.detailsscreen.DetailsViewModel
 import com.ravn.edsonkrikey.ui.mainscreen.MainViewModel
 import dagger.BindsInstance
 import dagger.Component
@@ -28,12 +30,14 @@ import javax.inject.Singleton
     AppModule::class,
     NetworkModule::class,
     ViewModelFactoryModule::class,
-    MainViewModelModule::class
+    MainViewModelModule::class,
+    DetailsViewModelModule::class
 ])
 interface AppComponent {
     fun inject(application: Application)
 
     fun inject(viewModel: MainViewModel)
+    fun inject(viewModel: DetailsViewModel)
 
     fun okHttp(): OkHttpClient
     fun retrofitAPi(): Retrofit
