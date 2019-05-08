@@ -5,6 +5,7 @@ import com.ravn.edsonkrikey.core.BaseViewModel
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by Edson Arratea Ope on 5/6/19.
@@ -19,7 +20,7 @@ open class DetailsViewModel(val app: App): BaseViewModel(app) {
     }
 
     fun formatDate(date: Date?): CharSequence? {
-        val FORMAT = SimpleDateFormat("MM/dd/yyyy", Locale.US)
+        val FORMAT = SimpleDateFormat("MMMM, yyyy", Locale.US)
         return when (date) {
             null -> { "N/A" }
             else -> {
@@ -27,5 +28,9 @@ open class DetailsViewModel(val app: App): BaseViewModel(app) {
                 catch (e: ParseException) { "N/A" }
             }
         }
+    }
+
+    fun millisecondToMinutes(timeTrack: Long): String {
+        return "${TimeUnit.MILLISECONDS.toMinutes(timeTrack)} min"
     }
 }

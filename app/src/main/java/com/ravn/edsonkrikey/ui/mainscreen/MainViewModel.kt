@@ -6,6 +6,7 @@ import com.ravn.edsonkrikey.core.App
 import com.ravn.edsonkrikey.core.BaseViewModel
 import com.ravn.edsonkrikey.repository.ItunesRepository
 import com.ravn.edsonkrikey.repository.remote.ItunesItems
+import com.ravn.edsonkrikey.repository.remote.Label
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
@@ -41,6 +42,21 @@ open class MainViewModel(val app: App): BaseViewModel(app) {
                 viewModelState.value = MainState.ERROR
             }).addTo(subscriptions)
 
+    }
+
+    fun getCategories(): Map<String, List<ItunesItems>> {
+        return listOfItems.groupBy {
+            it.kind
+        }
+    }
+
+    fun completeListOfItems(): List<Any> {
+        val list = mutableListOf<Any>()
+        getCategories().forEach {
+            list.add(Label(it.key+"s"))
+            list.addAll(it.value)
+        }
+        return list
     }
 
     companion object {

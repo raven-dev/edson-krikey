@@ -1,8 +1,10 @@
 package com.ravn.edsonkrikey.ui.mainscreen.adapter
 
 import android.view.View
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.ravn.edsonkrikey.core.BaseViewHolder
+import com.ravn.edsonkrikey.extensions.ClickListener
 import com.ravn.edsonkrikey.repository.remote.ItunesItems
 import kotlinx.android.synthetic.main.view_item_itunes.view.*
 
@@ -11,19 +13,21 @@ import kotlinx.android.synthetic.main.view_item_itunes.view.*
  * Ravn Development
  **/
 
-class ItunesHolder(itemView: View, val listener: (ItunesItems?) -> Unit) : RecyclerView.ViewHolder(itemView) {
-
-    fun updateView(item: ItunesItems) {
+class ItunesHolder(itemView: View, val listener: ClickListener) : BaseViewHolder<ItunesItems>(itemView) {
+    override fun updateView(item: Any) {
+        val itunesItem = item as ItunesItems
         itemView.setOnClickListener {
-            listener.invoke(item)
+            listener.invoke(itunesItem)
         }
         itemView.apply {
-            kindOfItem.text = item.kind
+            itemName.text = itunesItem.trackName
+            category.text = itunesItem.primaryGenreName
+            val priceString = "$${itunesItem.trackPrice}"
+            price.text = priceString
             Glide.with(context)
-                .load(item.artworkUrl100)
-                .into(imageItem)
-            artistName.text = item.artistName
-            trackName.text = item.trackName
+                .load(itunesItem.artworkUrl100)
+                .apply(RequestOptions().centerCrop())
+                .into(artistImg)
         }
     }
 
