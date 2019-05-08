@@ -1,6 +1,8 @@
 package com.ravn.edsonkrikey.ui.detailsscreen
 
 import android.os.Bundle
+import android.transition.Explode
+import android.transition.Fade
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -50,6 +52,8 @@ class DetailsFragment : BaseFragment<DetailsViewModel, FragmentDetailsBinding>()
     companion object {
         const val DATA = "Data"
         fun newInstance(item: ItunesItems?) = DetailsFragment().apply {
+            enterTransition = Fade()
+            exitTransition = Fade()
             arguments = Bundle().apply {
                 putSerializable(DATA, item)
             }

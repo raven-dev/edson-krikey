@@ -1,8 +1,10 @@
 package com.ravn.edsonkrikey.ui.mainscreen
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.transition.*
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
@@ -40,9 +42,11 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        itunesAdapter = ItunesAdapter {
-            val item = it as ItunesItems
-            launchScreen(DetailsFragment.newInstance(item), stackAction = BaseActivity.Companion.BackStack.ADD)
+        itunesAdapter = ItunesAdapter { v, i ->
+            val item = i as ItunesItems
+            val currentView = v as View
+            letsExplodeIt(currentView, item)
+            //launchScreen(DetailsFragment.newInstance(item), stackAction = BaseActivity.Companion.BackStack.ADD)
         }
         setupRecyclerview()
         searchListener()
@@ -69,6 +73,32 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
             layoutAnimation = controller
             scheduleLayoutAnimation()
         }
+    }
+
+    private fun letsExplodeIt(clickedView: View, item: ItunesItems) {
+        val viewRect = Rect()
+        clickedView.getGlobalVisibleRect(viewRect)
+        val exitTransition = Explode()
+        exitTransition.epicenterCallback = object : Transition.EpicenterCallback() {
+            override fun onGetEpicenter(transition: Transition): Rect {
+                return viewRect
+            }
+        }
+        val set = TransitionSet()
+        set.addTransition(exitTransition).excludeTarget(clickedView, true)
+        set.addTransition(Fade().addTarget(clickedView))
+        set.addListener(object : Transition.TransitionListener {
+            override fun onTransitionResume(transition: Transition?) { }
+            override fun onTransitionPause(transition: Transition?) { }
+            override fun onTransitionCancel(transition: Transition?) { }
+            override fun onTransitionStart(transition: Transition?) { }
+            override fun onTransitionEnd(transition: Transition?) {
+                launchScreen(DetailsFragment.newInstance(item), stackAction = BaseActivity.Companion.BackStack.ADD)
+            }
+        })
+        TransitionManager.beginDelayedTransition(itemsRecyclerView, set)
+        itemsRecyclerView.adapter = null
+        viewModel.listOfItems = emptyList()
     }
 
     private fun setupRecyclerview() {
