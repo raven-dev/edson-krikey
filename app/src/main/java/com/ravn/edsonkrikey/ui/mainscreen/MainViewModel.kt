@@ -22,6 +22,7 @@ open class MainViewModel(val app: App): BaseViewModel(app) {
     val viewModelState = MutableLiveData<MainState>()
     var listOfItems = listOf<ItunesItems>()
     val loading = ObservableBoolean(false)
+    val noResults = ObservableBoolean(false)
 
     override fun onStart() {
         super.onStart()
@@ -30,6 +31,7 @@ open class MainViewModel(val app: App): BaseViewModel(app) {
 
     fun search(searchKey: String) {
         loading.set(true)
+        noResults.set(false)
         itunesRepository.searchItunes(searchKey)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())

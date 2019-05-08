@@ -4,4 +4,9 @@
         <attr name="inputTitle" format="string"/>
         <attr name="inputBody" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="EmptyScreen">
+        <attr name="emptyScreenTitle" format="string"/>
+        <attr name="emptyScreenBody" format="string"/>
+    </declare-styleable>
 </resources>

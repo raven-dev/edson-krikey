@@ -23,6 +23,7 @@
             android:padding="@dimen/margin_quarter"
             android:textSize="16sp"
             android:inputType="text"
+            android:hint="@string/hint_search_text"
             android:textColor="@android:color/black"
             android:drawableStart="@drawable/ic_search_black_24dp"
             android:textColorHighlight="@color/colorPrimary"
@@ -39,10 +40,11 @@
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         />
         <LinearLayout
-            android:id="@+id/first"
+            android:id="@+id/mainView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:visibility="@{!viewModel.noResults ? View.VISIBLE : View.GONE}"
             android:background="@color/colorBackground"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,5 +60,12 @@
                 android:background="@color/light_gray"
             />
         </LinearLayout>
+        <com.ravn.edsonkrikey.customview.EmptyScreen
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:emptyScreenTitle="@string/header_no_results"
+            app:emptyScreenBody="@string/caption_no_results"
+            android:visibility="@{viewModel.noResults ? View.VISIBLE : View.GONE}"
+        />
     </LinearLayout>
 </layout>
