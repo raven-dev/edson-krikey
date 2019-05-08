@@ -46,10 +46,10 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
             val item = i as ItunesItems
             val currentView = v as View
             letsExplodeIt(currentView, item)
-            //launchScreen(DetailsFragment.newInstance(item), stackAction = BaseActivity.Companion.BackStack.ADD)
         }
         setupRecyclerview()
         searchListener()
+        backToMainScreen()
         viewModel.apply {
             viewModelState.observe(this@MainFragment, Observer { state ->
                 when (state) {
@@ -63,7 +63,13 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
     private fun updateView() {
         viewModel.apply {
             runAnimation()
-            itunesAdapter.addItems(completeListOfItems())
+            val itemsList = completeListOfItems()
+            if (itemsList.isEmpty()) {
+                noResults.set(true)
+            } else {
+                itunesAdapter.addItems(itemsList)
+                noResults.set(false)
+            }
         }
     }
 
@@ -99,6 +105,17 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
         TransitionManager.beginDelayedTransition(itemsRecyclerView, set)
         itemsRecyclerView.adapter = null
         viewModel.listOfItems = emptyList()
+    }
+
+    private fun backToMainScreen() {
+        activity?.supportFragmentManager?.addOnBackStackChangedListener {
+            if (currentFragment() == this@MainFragment) {
+                viewModel.apply {
+                    noResults.set(false)
+                    loading.set(false)
+                }
+            }
+        }
     }
 
     private fun setupRecyclerview() {

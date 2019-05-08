@@ -9,4 +9,7 @@
     <string name="description_label">Description</string>
     <string name="advisory_label">Advisory</string>
     <string name="button_text">Buy $%1$s</string>
+    <string name="header_no_results">No Results</string>
+    <string name="caption_no_results">Search for iTunes content above</string>
+    <string name="hint_search_text">Search iTunes content</string>
 </resources>
