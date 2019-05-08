@@ -13,4 +13,4 @@ class ItemType(val itemLayoutId: Int, val variableId: Int) {
 /**
  * Alias to add RecyclerView listeners
  */
-typealias ClickListener = (Any) -> Unit
+typealias ClickListener = (Any, Any) -> Unit

@@ -29,31 +29,7 @@ open class BaseActivity: AppCompatActivity() {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         }
 
-        var animationToUse = animation
-
         val tx = supportFragmentManager.beginTransaction()
-        if(!supportFragmentManager.fragments.isEmpty()) {
-            when (animationToUse) {
-                AnimationStyle.SLIDE -> {
-                    tx.setCustomAnimations(
-                        R.anim.screen_enter, R.anim.screen_exit,
-                        R.anim.screen_pop_enter, R.anim.screen_pop_exit
-                    )
-                }
-                AnimationStyle.MODAL -> {
-                    tx.setCustomAnimations(
-                        R.anim.modal_screen_enter, R.anim.modal_screen_exit,
-                        R.anim.modal_screen_pop_enter, R.anim.modal_screen_pop_exit
-                    )
-                }
-                else -> {
-                    tx.setCustomAnimations(
-                        R.anim.overlay_screen_enter, R.anim.overlay_screen_exit,
-                        R.anim.overlay_screen_enter, R.anim.overlay_screen_exit
-                    )
-                }
-            }
-        }
         when (stackAction) {
             BackStack.ADD, BackStack.ADD_OVERLAY -> tx.addToBackStack(null)
         }

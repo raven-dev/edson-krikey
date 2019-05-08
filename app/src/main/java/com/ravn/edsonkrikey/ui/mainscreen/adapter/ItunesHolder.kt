@@ -17,7 +17,7 @@ class ItunesHolder(itemView: View, val listener: ClickListener) : BaseViewHolder
     override fun updateView(item: Any) {
         val itunesItem = item as ItunesItems
         itemView.setOnClickListener {
-            listener.invoke(itunesItem)
+            listener.invoke(itemView, itunesItem)
         }
         itemView.apply {
             itemName.text = itunesItem.trackName

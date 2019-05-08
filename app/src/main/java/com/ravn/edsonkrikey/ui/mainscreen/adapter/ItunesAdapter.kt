@@ -19,5 +19,4 @@ open class ItunesAdapter(listener: ClickListener) : BaseAdapter<Any>(listener) {
             else -> LabelHolder(view)
         }
     }
-
 }
