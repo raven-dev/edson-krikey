@@ -1,23 +1,23 @@
 package com.ravn.edsonkrikey.ui.mainscreen
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.transition.*
-import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ravn.edsonkrikey.R
 import com.ravn.edsonkrikey.core.BaseActivity
 import com.ravn.edsonkrikey.core.BaseFragment
 import com.ravn.edsonkrikey.core.FragmentLayout
+import com.ravn.edsonkrikey.core.match
 import com.ravn.edsonkrikey.databinding.FragmentMainBinding
 import com.ravn.edsonkrikey.extensions.*
+import com.ravn.edsonkrikey.repository.remote.ItunesItems
+import com.ravn.edsonkrikey.repository.remote.Label
 import com.ravn.edsonkrikey.ui.detailsscreen.DetailsFragment
 import com.ravn.edsonkrikey.ui.mainscreen.adapter.ItunesAdapter
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -41,7 +41,8 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         itunesAdapter = ItunesAdapter {
-            launchScreen(DetailsFragment.newInstance(it), stackAction = BaseActivity.Companion.BackStack.ADD)
+            val item = it as ItunesItems
+            launchScreen(DetailsFragment.newInstance(item), stackAction = BaseActivity.Companion.BackStack.ADD)
         }
         setupRecyclerview()
         searchListener()
@@ -58,7 +59,7 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
     private fun updateView() {
         viewModel.apply {
             runAnimation()
-            itunesAdapter.addItems(listOfItems)
+            itunesAdapter.addItems(completeListOfItems())
         }
     }
 
@@ -71,7 +72,20 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
     }
 
     private fun setupRecyclerview() {
-        val childLayoutManager = LinearLayoutManager(context)
+        val childLayoutManager = GridLayoutManager(context, 3)
+        childLayoutManager.spanSizeLookup = (object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return when (itunesAdapter.getItemViewType(position)) {
+                    R.layout.view_item_itunes -> 1
+                    R.layout.view_item_label -> 3
+                    else -> 1
+                }
+            }
+        })
+        itunesAdapter.apply {
+            match(ItunesItems::class, R.layout.view_item_itunes)
+            match(Label::class, R.layout.view_item_label)
+        }
         itemsRecyclerView.apply {
             layoutManager = childLayoutManager
             hasFixedSize()
@@ -117,21 +131,6 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
                 false
             }
         }
-    }
-
-    private fun getListFragmentExitTransition(itemView: View): Transition {
-        val epicCenterRect = Rect()
-        //itemView is the full-width inbox item's view
-        itemView.getGlobalVisibleRect(epicCenterRect)
-        // Set Epic center to a imaginary horizontal full width line under the clicked item, so the explosion happens vertically away from it
-        epicCenterRect.top = epicCenterRect.bottom
-        val exitTransition = Explode()
-        exitTransition.epicenterCallback = object : Transition.EpicenterCallback() {
-            override fun onGetEpicenter(transition: Transition): Rect {
-                return epicCenterRect
-            }
-        }
-        return Explode()
     }
 
     companion object {

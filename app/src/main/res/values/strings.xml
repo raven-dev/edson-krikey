@@ -8,4 +8,5 @@
     <string name="information_label">Information</string>
     <string name="description_label">Description</string>
     <string name="advisory_label">Advisory</string>
+    <string name="button_text">Buy $%1$s</string>
 </resources>
